@@ -6,7 +6,7 @@ const websites = pkg.websites
 async function start() {
   
   const hostFile = fs.readFileSync('/etc/hosts', 'utf8')
-  const head = hostFile.match(/(.*)(?:# BEGIN hosts added by flip-host)/s)
+  let head = hostFile.match(/(.*)(?:# BEGIN hosts added by flip-host)/s)
   const body = hostFile.match(/(?:# BEGIN hosts added by flip-host)(.*)(?:# END hosts added by flip-host)/s)
   const tail = hostFile.match(/(?:# END hosts added by flip-host)(.*)/s)
 
@@ -18,9 +18,11 @@ async function start() {
       body[1] + 
       '- - - - - - - - - - - - - - - - - - - - - -'
     )
-    // console.log(body[1])
   } else {
-    console.log('Oh, hello first time user!')
+    console.log('Oh, hello (first time user)')
+    console.log('HEAD:', hostFile)
+    // original content moves to the head
+    head = ['', hostFile]
   }
 
   let response = await prompts({
@@ -50,14 +52,14 @@ async function start() {
     return
   }
   
-  console.log(`Set host for '${website}' to '${server}'`) 
+  console.log(`Set host for '${website}' to '${server}'`)
 
   fs.writeFileSync('/etc/hosts', (head ? head[1] : '') +
   '# BEGIN hosts added by flip-host' +
   '\n' + (body ? body[1] : '').split('\n').filter(val => val.indexOf(website) === -1 && val !== '').join('\n') +
   '\n' + server + '\t' + website + '\n' + 
-  '# END hosts added by flip-host\n' +
-  (tail ? tail[1] : ''))
+  '# END hosts added by flip-host' +
+  (tail ? ('\n' + tail[1]) : '\n'))
 }
 
 start()
