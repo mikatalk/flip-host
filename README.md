@@ -36,9 +36,11 @@ Update your website list:
 ```
 
 ### Usage
-```# install deps
+```
+# install deps
 npm i
 # run with npm:
 npm start
 # run with node
-sudo node index.js```
+sudo node index.js
+```
