@@ -1,6 +1,10 @@
 # flip-host
 Utility to quickly modify hosts file
 
+### Important
+This script was tested on MacOS only, use at your own risk. 
+Also please consider backing up `/etc/hosts` file before use.
+
 ### Config
 Modify `package.json`
 
