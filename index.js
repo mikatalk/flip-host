@@ -20,7 +20,6 @@ async function start() {
     )
   } else {
     console.log('Oh, hello (first time user)')
-    console.log('HEAD:', hostFile)
     // original content moves to the head
     head = ['', hostFile]
   }
